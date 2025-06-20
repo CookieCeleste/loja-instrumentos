@@ -1,0 +1,23 @@
+{
+  "name": "loja-instrumentos",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CookieCeleste/loja-instrumentos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CookieCeleste/loja-instrumentos/issues"
+  },
+  "homepage": "https://github.com/CookieCeleste/loja-instrumentos#readme",
+  "description": "",
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  }
+}

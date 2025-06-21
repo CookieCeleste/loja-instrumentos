@@ -13,7 +13,7 @@ function callInput() {
 export function runProgram() {
 
     while(true) {
-        let x = showMenu1();
+        let x = showMenu();
         if (x == '0') {
         break;
         }
@@ -24,12 +24,15 @@ export function runProgram() {
             listarInstrumentos();
         }
         else if (x == '3') {
-            adicionarEstoque();
+            adicionarQuantidade();
         }
         else if (x == '4') {
-            subtrairEstoque();
+            subtrairQuantidade();
         }
         else if (x == '5') {
+            definirQuantidade();
+        }
+        else if (x == '6') {
             apagarInstrumento();
         }
         else if (x == 'help') {
@@ -47,7 +50,7 @@ export function introduceProgram() {
     console.log(`\n
 ========= PROGRAMA DE GERENCIAMENTO - Loja de Instrumentos ============================================================
 
-        [Pressione Enter para prosseguir com o programa]z
+        [Pressione Enter para prosseguir com o programa]
         [Recomendado aumentar o tamanho do terminal arrastando a borda acima]`);
     callInput();
     console.log(`
@@ -73,13 +76,14 @@ export function introduceProgram() {
 }
 
 //o menu mostra as opções e pega a resposta mas retorna ela pra função principal runProgram onde ele redireciona pra outro menu
-function showMenu1() {
+function showMenu() {
     console.log(`
         1. Cadastrar novo instrumento
         2. Listar instrumentos
         3. Adicionar quantidade ao estoque
         4. Subtrair quantidade do estoque
-        5. Apagar instrumento do estoque
+        5. Definir quantidade do estoque
+        6. Apagar instrumento do estoque
         0. Sair do programa
 
         digite "help" para rever as instruções
@@ -95,8 +99,7 @@ function cadastrarInstrumento() {
     console.log('\nSiga os passos inserindo as informações pedidas que serão armazenadas, digite "cancelar" para cancelar');
     process.stdout.write('[Enter]');
     let x = callInput();
-    // esses if's só tão numa mesma linha mas funcionam igual qualquer if normal
-    //esse em específico retorna zero pro x, que na função principal cai no break MAS NÃO FECHA O PROGRAMA só sai dessa função e volta
+    // esse if retorna zero pro x, que na função principal cai no break MAS NÃO FECHA O PROGRAMA só sai dessa função e volta
     if (x == 'cancelar') {console.log('\nVoltando...'); return 0;}
 
     console.log('Nome do instrumento (ex: Guitarra, Saxofone, Piano):');
@@ -120,6 +123,7 @@ function cadastrarInstrumento() {
     else if (original == 'cancelar') {console.log('\nVoltando...'); return 0;}
 
     let novoInstrumento = {
+        Quantidade: 1,
         Nome: nome,
         Marca: marca,
         Ano: ano,
@@ -131,19 +135,95 @@ function cadastrarInstrumento() {
 }
 
 function listarInstrumentos() {
+    console.log(`
+0. [Voltar ao Menu Anterior]
+`);
     for (let i = 0; i < instrumentos.length; i++) {
-        console.log(i+1 + '. ', instrumentos[i]);
+        console.log(`${i+1}. ${instrumentos[i].Nome} ${instrumentos[i].Marca} (${instrumentos[i].Quantidade})`);
     }
+    if (instrumentos[0]) {
+        console.log('Digite o número do item para ver suas especificações');
+        let x = callInput();
+        if (x == '0') {
+            return 0;
+        } else {
+            console.log('\n',instrumentos[x-1]);
+        }
+        process.stdout.write('\n[Enter]');
+    } else {
+        console.log('>> Não existem itens cadastrados. <<')
+    }
+    callInput();
 }
 
-function adicionarEstoque() {
-    
+function adicionarQuantidade() {
+    console.log();
+    for (let i = 0; i < instrumentos.length; i++) {
+        console.log(`${i+1}. ${instrumentos[i].Nome} ${instrumentos[i].Marca} (${instrumentos[i].Quantidade})`);
+    }
+    console.log('\nDigite o número do item para adicionar mais quantidade dele');
+    let x = callInput();
+    if (instrumentos[x-1]) {
+    console.log('Quantos itens deseja adicionar?');
+    let qtd = Number(callInput());
+        instrumentos[x-1].Quantidade += qtd;
+        console.log('\nItens adicionados!')
+    } else { console.log('\nItem inválido, retornando...'); return 0;}
 }
 
-function subtrairEstoque() {
+function subtrairQuantidade() {
+    console.log();
+    for (let i = 0; i < instrumentos.length; i++) {
+        console.log(`${i+1}. ${instrumentos[i].Nome} ${instrumentos[i].Marca} (${instrumentos[i].Quantidade})`);
+    }
+    console.log('\nDigite o número do item para subtrair sua quantidade');
+    let x = callInput();
+    if (instrumentos[x-1]) {
+        console.log('Qual quantidade a ser subtraída?');
+        let qtd = Number(callInput());
+        if (qtd >= instrumentos[x-1].Quantidade) {
+            console.log(`\nSubtrair essa quantidade irá apagar este item, sem recuperação. Deseja prosseguir?
+digite "sim" e dê enter para confirmar.`);
+            let y = callInput();
+            if (y == 'sim') {
+            instrumentos.splice(x-1, 1);
+            } else { return 0; }
+        } else {
+            instrumentos[x-1].Quantidade -= qtd;
+            console.log('\nQuantidade subtraída!')
+        }
+    } else { console.log('\nItem inválido, retornando...'); return 0;}
+}
 
+function definirQuantidade() {
+    console.log();
+    for (let i = 0; i < instrumentos.length; i++) {
+        console.log(`${i+1}. ${instrumentos[i].Nome} ${instrumentos[i].Marca} (${instrumentos[i].Quantidade})`);
+    }
+    console.log('\nDigite o número do item para definir sua quantidade');
+    let x = callInput();
+    if (instrumentos[x-1]) {
+    console.log('Qual quantidade a ser definida?');
+    let qtd = Number(callInput());
+        instrumentos[x-1].Quantidade = qtd;
+        console.log('\nQuantidade definida!')
+    } else { console.log('\nItem inválido, retornando...'); return 0;}
 }
 
 function apagarInstrumento() {
-
+    console.log();
+    for (let i = 0; i < instrumentos.length; i++) {
+        console.log(`${i+1}. ${instrumentos[i].Nome} ${instrumentos[i].Marca} (${instrumentos[i].Quantidade})`);
+    }
+    console.log('\nDigite o número do item que deseja deletar definitivamente independente da quantidade.');
+    let x = callInput();
+    if (instrumentos[x-1]) {
+        console.log(`Tem certeza que deseja excluir o item ${x}?
+Digite "sim" e dê enter para confirmar:`)
+        let y = callInput();
+        if (y == 'sim') {
+            instrumentos.splice(x-1, 1);
+        } else { return 0; }
+    }
+    
 }

@@ -1,6 +1,7 @@
 import prompt from "prompt-sync";
 let input = prompt();
 
+//array que vai armazenar os instrumentos cadastrados
 let instrumentos = [];
 
 //função pra facilitar pedir input (pra usar o valor dela tem que lembrar de chamar dentro de uma variavel)
@@ -12,6 +13,7 @@ function callInput() {
 //função principal que redireciona pra todos os menus/funcionalidades, recebe o x do showMenu() e usa
 export function runProgram() {
 
+    // loop while true
     while(true) {
         let x = showMenu();
         if (x == '0') {
@@ -92,8 +94,10 @@ function showMenu() {
     process.stdout.write('Insira sua escolha: ')
     let x = callInput();
     return x;
+    // o valor de x vai ser retornado ao runProgram() e utilizado nas condições dele
 }
 
+// função que guarda uma sequência de informações e as tranforma em um objeto, sempre podendo ser cancelada no meio
 function cadastrarInstrumento() {
 
     console.log('\nSiga os passos inserindo as informações pedidas que serão armazenadas, digite "cancelar" para cancelar');
@@ -130,10 +134,12 @@ function cadastrarInstrumento() {
         Original: original
     }
 
+    // coloca as informações inseridas em forma de objeto como elemento do array, mesmo que o objeto seja reutilizado com outras informações o elemento não muda dentro do array e pode ser adicionado como novo
     instrumentos.push(novoInstrumento);
     console.log('\nInstrumento cadastrado!');
 }
 
+// faz um loop que lista o nome e marca de cada item existente no array de instrumentos, se não existirem itens o usuário será informado. Após isso o usuário pode especificar um item para mostrar o objeto inteiro do array
 function listarInstrumentos() {
     console.log(`
 0. [Voltar ao Menu Anterior]
@@ -156,6 +162,7 @@ function listarInstrumentos() {
     callInput();
 }
 
+// pede um número que vai ser adicionado ao item "quantidade" do objeto escolhido
 function adicionarQuantidade() {
     console.log();
     for (let i = 0; i < instrumentos.length; i++) {
@@ -171,6 +178,7 @@ function adicionarQuantidade() {
     } else { console.log('\nItem inválido, retornando...'); return 0;}
 }
 
+// subtrai um número da quantidade do objeto escolhido pelo usuário, caso essa subtração resulte um 0 ou menor, o item pode ser apagado com a autorização do usuário
 function subtrairQuantidade() {
     console.log();
     for (let i = 0; i < instrumentos.length; i++) {
@@ -195,6 +203,7 @@ digite "sim" e dê enter para confirmar.`);
     } else { console.log('\nItem inválido, retornando...'); return 0;}
 }
 
+// substitui a quantidade do objeto atual pela inserida no input
 function definirQuantidade() {
     console.log();
     for (let i = 0; i < instrumentos.length; i++) {
@@ -210,6 +219,7 @@ function definirQuantidade() {
     } else { console.log('\nItem inválido, retornando...'); return 0;}
 }
 
+// retira o item do array e da lista por completo, reordenando eles dentro do array
 function apagarInstrumento() {
     console.log();
     for (let i = 0; i < instrumentos.length; i++) {

@@ -1,3 +1,5 @@
-import { executeProgram } from "./funcoes.mjs";
+import { introduceProgram, runProgram } from "./funcoes.mjs";
 
-executeProgram();
+
+introduceProgram();
+runProgram();

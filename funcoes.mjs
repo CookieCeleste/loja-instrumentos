@@ -100,6 +100,7 @@ function showMenu() {
 // função que guarda uma sequência de informações e as tranforma em um objeto, sempre podendo ser cancelada no meio
 function cadastrarInstrumento() {
 
+    console.log('========= CADASTRAR NOVO INSTRUMENTO ============================================================')
     console.log('\nSiga os passos inserindo as informações pedidas que serão armazenadas, digite "cancelar" para cancelar');
     process.stdout.write('[Enter]');
     let x = callInput();
@@ -136,11 +137,12 @@ function cadastrarInstrumento() {
 
     // coloca as informações inseridas em forma de objeto como elemento do array, mesmo que o objeto seja reutilizado com outras informações o elemento não muda dentro do array e pode ser adicionado como novo
     instrumentos.push(novoInstrumento);
-    console.log('\nInstrumento cadastrado!');
+    console.log('\n========= Instrumento cadastrado! ============================================================');
 }
 
 // faz um loop que lista o nome e marca de cada item existente no array de instrumentos, se não existirem itens o usuário será informado. Após isso o usuário pode especificar um item para mostrar o objeto inteiro do array
 function listarInstrumentos() {
+    console.log('========= LISTAR INSTRUMENTOS ============================================================')
     console.log(`
 0. [Voltar ao Menu Anterior]
 `);
@@ -164,6 +166,7 @@ function listarInstrumentos() {
 
 // pede um número que vai ser adicionado ao item "quantidade" do objeto escolhido
 function adicionarQuantidade() {
+    console.log('========= ADICIONAR QUANTIDADE ============================================================')
     console.log();
     for (let i = 0; i < instrumentos.length; i++) {
         console.log(`${i+1}. ${instrumentos[i].Nome} ${instrumentos[i].Marca} (${instrumentos[i].Quantidade})`);
@@ -174,12 +177,13 @@ function adicionarQuantidade() {
     console.log('Quantos itens deseja adicionar?');
     let qtd = Number(callInput());
         instrumentos[x-1].Quantidade += qtd;
-        console.log('\nItens adicionados!')
+        console.log('\n========= Itens adicionados! ============================================================');
     } else { console.log('\nItem inválido, retornando...'); return 0;}
 }
 
 // subtrai um número da quantidade do objeto escolhido pelo usuário, caso essa subtração resulte um 0 ou menor, o item pode ser apagado com a autorização do usuário
 function subtrairQuantidade() {
+    console.log('========= SUBTRAIR QUANTIDADE ============================================================')
     console.log();
     for (let i = 0; i < instrumentos.length; i++) {
         console.log(`${i+1}. ${instrumentos[i].Nome} ${instrumentos[i].Marca} (${instrumentos[i].Quantidade})`);
@@ -198,13 +202,14 @@ digite "sim" e dê enter para confirmar.`);
             } else { return 0; }
         } else {
             instrumentos[x-1].Quantidade -= qtd;
-            console.log('\nQuantidade subtraída!')
+            console.log('\n========= Quantidade subtraída! ============================================================');
         }
     } else { console.log('\nItem inválido, retornando...'); return 0;}
 }
 
 // substitui a quantidade do objeto atual pela inserida no input
 function definirQuantidade() {
+    console.log('========= DEFINIR QUANTIDADE ============================================================')
     console.log();
     for (let i = 0; i < instrumentos.length; i++) {
         console.log(`${i+1}. ${instrumentos[i].Nome} ${instrumentos[i].Marca} (${instrumentos[i].Quantidade})`);
@@ -212,15 +217,26 @@ function definirQuantidade() {
     console.log('\nDigite o número do item para definir sua quantidade');
     let x = callInput();
     if (instrumentos[x-1]) {
-    console.log('Qual quantidade a ser definida?');
-    let qtd = Number(callInput());
-        instrumentos[x-1].Quantidade = qtd;
-        console.log('\nQuantidade definida!')
+        console.log('Qual quantidade a ser definida?');
+        let qtd = Number(callInput());
+        if (qtd <= 0) {
+            console.log(`\nDefinir essa quantidade irá apagar este item, sem recuperação. Deseja prosseguir?
+        digite "sim" e dê enter para confirmar.`);
+            let y = callInput();
+            if (y == 'sim') {
+                instrumentos.splice(x-1, 1);
+            }
+        }
+        else {
+            instrumentos[x-1].Quantidade = qtd;
+            console.log('\n========= Quantidade definida! ============================================================');
+        }
     } else { console.log('\nItem inválido, retornando...'); return 0;}
 }
 
 // retira o item do array e da lista por completo, reordenando eles dentro do array
 function apagarInstrumento() {
+    console.log('========= APAGAR INSTRUMENTO ============================================================')
     console.log();
     for (let i = 0; i < instrumentos.length; i++) {
         console.log(`${i+1}. ${instrumentos[i].Nome} ${instrumentos[i].Marca} (${instrumentos[i].Quantidade})`);
@@ -233,6 +249,7 @@ Digite "sim" e dê enter para confirmar:`)
         let y = callInput();
         if (y == 'sim') {
             instrumentos.splice(x-1, 1);
+            console.log('\n========= Item deletado! ============================================================');
         } else { return 0; }
     }
     
